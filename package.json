@@ -5,6 +5,18 @@
 	"bin": {
 		"tiny": "./bin/tiny"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/minjs1cn/any-tiny"
+	},
+	"author": {
+		"name": "minjs1cn",
+		"email": "303890562@qq.com"
+	},
+	"files": [
+		"lib",
+		"bin"
+	],
 	"license": "MIT",
 	"devDependencies": {
 		"@types/listr": "^0.14.4",
