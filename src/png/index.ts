@@ -55,8 +55,9 @@ function createTinyTask(filepath: string, config: IProps): ListrTask {
 						}
 					});
 				download(url, newFile);
-			} catch (error) {
-				task.title = error.message + ' ' + task.title;
+			} catch (error: any) {
+				task.title =
+					(error && error.message ? error.message : 'error') + ' ' + task.title;
 			}
 		},
 	};
