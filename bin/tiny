@@ -2,7 +2,6 @@
 
 const { createCommand } = require('commander');
 const { tinypng } = require('../lib');
-const path = require('path');
 
 const program = createCommand();
 
@@ -15,9 +14,9 @@ program
 program
 	.command('png')
 	.description('start compress images')
-	.option('-i, --input', 'input directory')
-	.option('-o, --output', 'output directory')
-	.option('-ext, --extname', 'filter files by extname')
+	.option('-i, --input <string>', 'input directory')
+	.option('-o, --output <string>', 'output directory')
+	.option('-ext, --extname <string>', 'filter files by extname')
 	.action(tinypng);
 
 // 开始解析

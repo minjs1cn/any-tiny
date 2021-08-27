@@ -17,8 +17,8 @@ type Optional<T> = {
 
 export function tinypng(props: Optional<IProps>) {
 	const config = {
-		...props,
 		...defaultConfig,
+		...props,
 	};
 
 	const filter = createFilterByExt(config.extname);
