@@ -1,0 +1,18 @@
+{
+	"name": "any-tiny",
+	"version": "1.0.0",
+	"main": "lib/index.js",
+	"bin": {
+		"tiny": "./bin/tiny"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@types/listr": "^0.14.4",
+		"@types/node": "^16.7.2",
+		"commander": "^8.1.0",
+		"typescript": "^4.3.5"
+	},
+	"dependencies": {
+		"listr": "^0.14.3"
+	}
+}
