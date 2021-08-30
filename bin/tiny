@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { createCommand } = require('commander');
-const { tinypng } = require('../lib');
+const { tinypng, createVideoPoster } = require('../lib');
 
 const program = createCommand();
 
@@ -17,8 +17,19 @@ program
 	.option('-i, --input <string>', 'input directory')
 	.option('-o, --output <string>', 'output directory')
 	.option('-ext, --extname <string>', 'filter files by extname')
-	.option('-d, --deep <boolean>', 'recursion directory?', false)
+	.option('-d, --deep', 'recursion directory?', false)
 	.action(tinypng);
+
+program
+	.command('poster')
+	.description('start create video poster by ffmpeg')
+	.option('-i, --input <string>', 'input directory')
+	.option('-o, --output <string>', 'output directory')
+	.option('-ext, --extname <string>', 'filter files by extname')
+	.option('-d, --deep', 'recursion directory?', false)
+	.option('-p, --position <number>', 'recursion directory?', 0)
+	.option('-c, --compress', 'recursion directory?', false)
+	.action(createVideoPoster);
 
 // 开始解析
 program.parse(process.argv);

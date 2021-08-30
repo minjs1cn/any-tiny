@@ -1,27 +1,21 @@
-import { createFilterByExt, getFiles, imageFilter } from './utils';
+import { createFilterByExt, getFiles, mkdir } from '../utils';
 import * as defaultConfig from './config';
 import Listr, { ListrTask } from 'listr';
 import { download, tiny } from './api';
-import fs from 'fs';
-import path from 'path';
 
-interface IProps {
-	input: string;
-	output: string;
-	extname: string;
-	deep: boolean;
-}
+type TProps = typeof defaultConfig;
 
 type Optional<T> = {
 	[index in keyof T]?: T[index];
 };
 
-export function tinypng(props: Optional<IProps>) {
-	console.log(props);
+export function tinypng(props: Optional<TProps>) {
 	const config = {
 		...defaultConfig,
 		...props,
 	};
+
+	mkdir(config.output);
 
 	const filter = createFilterByExt(config.extname);
 	const files = getFiles(config.input, props.deep).filter(filter);
@@ -33,7 +27,7 @@ export function tinypng(props: Optional<IProps>) {
 	});
 }
 
-function createTinyTask(filepath: string, config: IProps): ListrTask {
+function createTinyTask(filepath: string, config: TProps): ListrTask {
 	return {
 		title: filepath,
 		task: async (ctx, task) => {
@@ -46,16 +40,7 @@ function createTinyTask(filepath: string, config: IProps): ListrTask {
 				const outputSize = (s2 / 1024).toFixed(2) + 'kb';
 				task.title = ` ${outputSize} / ${inputSize} = ${ratio} ${filepath}`;
 				const newFile = filepath.replace(config.input, config.output);
-				let outDir = './';
-				path
-					.dirname(newFile)
-					.split('/')
-					.forEach(dir => {
-						outDir += dir + '/';
-						if (!fs.existsSync(outDir)) {
-							fs.mkdirSync(outDir);
-						}
-					});
+				mkdir(newFile);
 				download(url, newFile);
 			} catch (error: any) {
 				task.title =
