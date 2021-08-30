@@ -2,38 +2,44 @@
 
 const { createCommand } = require('commander');
 const { tinypng, createVideoPoster } = require('../lib');
+const pkg = require('../package.json');
+const packageJson = require('package-json');
+const chalk = require('chalk');
+const semver = require('semver');
 
 const program = createCommand();
 
-// 设置版本号
-program
-	.usage('<command> [options]')
-	.version(require('../package.json').version);
+(async () => {
+	const { version } = await packageJson('any-tiny');
+	if (semver.lt(pkg.version, version)) {
+		console.log(chalk.bgRed('please upgrade!'));
+		return;
+	}
 
-// 注册命令
-program
-	.command('png')
-	.description('start compress images')
-	.option('-i, --input <string>', 'input directory')
-	.option('-o, --output <string>', 'output directory')
-	.option('-ext, --extname <string>', 'filter files by extname')
-	.option('-d, --deep', 'recursion directory?', false)
-	.action(tinypng);
+	// 设置版本号
+	program.usage('<command> [options]').version(pkg.version);
 
-program
-	.command('poster')
-	.description('start create video poster by ffmpeg')
-	.option('-i, --input <string>', 'input directory')
-	.option('-o, --output <string>', 'output directory')
-	.option('-ext, --extname <string>', 'filter files by extname')
-	.option('-d, --deep', 'recursion directory?', false)
-	.option('-p, --position <number>', 'recursion directory?', 0)
-	.option('-c, --compress', 'recursion directory?', false)
-	.action(createVideoPoster);
+	// 注册命令
+	program
+		.command('png')
+		.description('start compress images')
+		.option('-i, --input <string>', 'input directory')
+		.option('-o, --output <string>', 'output directory')
+		.option('-ext, --extname <string>', 'filter files by extname')
+		.option('-d, --deep', 'recursion directory?', false)
+		.action(tinypng);
 
-// 开始解析
-program.parse(process.argv);
+	program
+		.command('poster')
+		.description('start create video poster by ffmpeg')
+		.option('-i, --input <string>', 'input directory')
+		.option('-o, --output <string>', 'output directory')
+		.option('-ext, --extname <string>', 'filter files by extname')
+		.option('-d, --deep', 'recursion directory?', false)
+		.option('-p, --position <number>', 'poster of video position', 0)
+		.option('-c, --compress', 'compress by tinypng', false)
+		.action(createVideoPoster);
 
-if (!program.args.length) {
-	program.outputHelp();
-}
+	// 开始解析
+	program.parse(process.argv);
+})();
