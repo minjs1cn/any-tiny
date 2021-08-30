@@ -17,6 +17,7 @@ program
 	.option('-i, --input <string>', 'input directory')
 	.option('-o, --output <string>', 'output directory')
 	.option('-ext, --extname <string>', 'filter files by extname')
+	.option('-d, --deep <boolean>', 'recursion directory?', false)
 	.action(tinypng);
 
 // 开始解析

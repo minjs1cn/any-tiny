@@ -1,6 +1,6 @@
 {
 	"name": "any-tiny",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"main": "lib/index.js",
 	"bin": {
 		"tiny": "./bin/tiny"

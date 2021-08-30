@@ -9,6 +9,7 @@ interface IProps {
 	input: string;
 	output: string;
 	extname: string;
+	deep: boolean;
 }
 
 type Optional<T> = {
@@ -16,13 +17,14 @@ type Optional<T> = {
 };
 
 export function tinypng(props: Optional<IProps>) {
+	console.log(props);
 	const config = {
 		...defaultConfig,
 		...props,
 	};
 
 	const filter = createFilterByExt(config.extname);
-	const files = getFiles(config.input).filter(filter);
+	const files = getFiles(config.input, props.deep).filter(filter);
 
 	const taskList = new Listr(files.map(file => createTinyTask(file, config)));
 
