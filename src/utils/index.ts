@@ -43,13 +43,14 @@ export function mkdir(dir: string) {
 	}
 	dirCache.add(dir);
 
-	let outDir = './';
+	let base = '.';
+
 	getDirname(dir)
 		.split('/')
 		.forEach(dir => {
-			outDir += dir + '/';
-			if (!fs.existsSync(outDir)) {
-				fs.mkdirSync(outDir);
+			base = path.join(base, dir);
+			if (!fs.existsSync(base)) {
+				fs.mkdirSync(base);
 			}
 		});
 }
